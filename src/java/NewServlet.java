@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Vrtex
  */
 public class NewServlet extends HttpServlet {
+        int i = 0;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,6 +30,7 @@ public class NewServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        i = i + 1;
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -37,15 +39,7 @@ public class NewServlet extends HttpServlet {
             out.println("<title>Servlet NewServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            out.println("<h1>Method: " + request.getMethod() + "</h1>");
-            out.println("<h1>Remote addr: " + request.getRemoteAddr() + "</h1>");
-            out.println("<h1>Server name: " + request.getServerName()+ "</h1>");
-            out.println("<h1>header (accept): " + request.getHeader("Accept") + "</h1>");
-            out.println("<h1>header (Accept-Language): " + request.getHeader("Accept-Language") + "</h1>");
-            out.println("<h1>header (Accept-Encoding): " + request.getHeader("Accept-Encoding") + "</h1>");
-            out.println("<h1>header (User-Agent): " + request.getHeader("User-Agent") + "</h1>");
-            out.println("<h2>x + y = " + (Integer.parseInt(request.getParameter("x")) + Integer.parseInt(request.getParameter("y"))) + "</h1>");
+            out.println("Licznik: " + i);
             out.println("</body>");
             out.println("</html>");
         }
