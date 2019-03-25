@@ -3,16 +3,21 @@
     <servlet>
         <servlet-name>hello</servlet-name>
         <servlet-class>NewServlet</servlet-class>
+        <init-param>
+            <param-name>krowa</param-name>
+            <param-value>baleron</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/hello</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
