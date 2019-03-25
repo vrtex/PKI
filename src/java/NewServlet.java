@@ -45,6 +45,8 @@ public class NewServlet extends HttpServlet {
             out.println("<h1>header (Accept-Language): " + request.getHeader("Accept-Language") + "</h1>");
             out.println("<h1>header (Accept-Encoding): " + request.getHeader("Accept-Encoding") + "</h1>");
             out.println("<h1>header (User-Agent): " + request.getHeader("User-Agent") + "</h1>");
+            out.println("<h1>Imie: " + request.getParameter("Imie") + "</h1>");
+            out.println("<h1>wiek: " + request.getParameter("wiek") + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
