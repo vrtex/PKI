@@ -38,6 +38,13 @@ public class NewServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Method: " + request.getMethod() + "</h1>");
+            out.println("<h1>Remote addr: " + request.getRemoteAddr() + "</h1>");
+            out.println("<h1>Server name: " + request.getServerName()+ "</h1>");
+            out.println("<h1>header (accept): " + request.getHeader("Accept") + "</h1>");
+            out.println("<h1>header (Accept-Language): " + request.getHeader("Accept-Language") + "</h1>");
+            out.println("<h1>header (Accept-Encoding): " + request.getHeader("Accept-Encoding") + "</h1>");
+            out.println("<h1>header (User-Agent): " + request.getHeader("User-Agent") + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
