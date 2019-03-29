@@ -7,6 +7,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,8 +27,34 @@ public class NewServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    private Cookie getCounter(Cookie cookies[])
+    {
+        for(Cookie c : cookies)
+            if(c.getName().equals("counter"))
+                return c;
+        return null;
+    }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
+        Cookie cookies[] = request.getCookies();
+        Cookie counter = getCounter(cookies);
+        
+        if(counter == null)
+            counter = new Cookie("counter", "0");
+        else
+        {
+            Integer v = Integer.parseInt(counter.getValue());
+            ++v;
+            counter.setValue(String.valueOf(v));
+        }
+        
+        counter.setMaxAge(10);
+        response.addCookie(counter);
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -38,6 +65,7 @@ public class NewServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            out.println(counter.getValue());
             out.println("</body>");
             out.println("</html>");
         }
