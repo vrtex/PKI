@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
 /**
  *
@@ -19,14 +20,67 @@ import javax.servlet.http.HttpServletResponse;
 public class NewServlet extends HttpServlet {
         String krowa = "";
 
+        
+    private boolean tryLogIn(HttpServletRequest req)
+    {
+        String usr = req.getParameter("user");
+        String pass = req.getParameter("pass");
+        
+        if(usr == null || pass == null)
+            return false;
+        
+        if(!usr.equals("admin") || !pass.equals("password"))
+            return false;
+        
+        return true;
+    }
+    
+    private void showGuestMsg(PrintWriter out)
+    {
+        out.println("<h1>Nie zalogowano</h1>");
+        out.println("<form method=\"get\">");
+        out.println("<input type=\"text\" name=\"user\" \\>");
+        out.println("<input type=\"password\" name=\"pass\" \\>");
+        out.println("<input type=\"submit\" value=\"zaloguj\" \\>");
+        out.println("</form>");
+    }
+    
+    private void showUserMsg(PrintWriter out)
+    {
+        out.println("<h1>Zalogowano</h1>");
+        out.println("<form method=\"get\">");
+        out.println("<input type=\"hidden\" name=\"akcja\" value=\"wyloguj\" \\>");
+        out.println("<input type=\"submit\" value=\"wyloguj\" \\>");
+        out.println("</form>");
+    }
+    
     @Override
     public void init(ServletConfig config)
     {
         krowa = config.getInitParameter("krowa");
     }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        HttpSession session = request.getSession(true);
+        
+        String action = request.getParameter("akcja");
+        if(action != null && action.equals("wyloguj"))
+            session.setAttribute("zalogowany", false);
+        
+        Boolean loggedIn = (Boolean)session.getAttribute("zalogowany");
+        
+        if(loggedIn == null) loggedIn = false;
+        
+        if(!loggedIn)
+        {
+            loggedIn = tryLogIn(request);
+            if(loggedIn)
+                session.setAttribute("zalogowany", true);
+        }
+        
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -34,7 +88,11 @@ public class NewServlet extends HttpServlet {
             out.println("<title>Servlet NewServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Krowa: " + krowa + "</h1>");
+            out.println("<h1>HELLO</h1>");
+            if(loggedIn)
+                showUserMsg(out);
+            else
+                showGuestMsg(out);
             out.println("</body>");
             out.println("</html>");
         }
